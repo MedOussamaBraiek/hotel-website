@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./navbar";
 import ReservationCard from "./reservation-card";
+import Image from "next/image";
 
 const HeroSection = () => {
   return (
@@ -16,6 +17,14 @@ const HeroSection = () => {
         <source src="./dar-benti-video.mp4" type="video/mp4" />
       </video>
       <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-0" />
+
+      <Image
+        alt="booking"
+        src="/booking.png"
+        height={80}
+        width={250}
+        className="absolute right-0 top-1/2"
+      />
 
       <div className="relative z-10 w-full h-full text-white ">
         <div className="md:px-[5rem] sm:px-[3rem] px-[1rem] py-[2rem] h-full">

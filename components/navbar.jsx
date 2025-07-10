@@ -14,6 +14,10 @@ const Navbar = () => {
 
   const links = [
     {
+      label: "Chambres",
+      href: "/chambres",
+    },
+    {
       label: "Tarifs",
       href: "/tarifs",
     },
