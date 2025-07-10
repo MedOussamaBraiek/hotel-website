@@ -38,4 +38,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 =======
 # hotel-website
 Dar Benti Website
->>>>>>> 98e6f88e6e631163d1c309dd916b88afff5ac4d5
