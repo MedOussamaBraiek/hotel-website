@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Dar Benti",
   description: "Maison d'hôtes | Tunisie",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function Layout({ children }) {

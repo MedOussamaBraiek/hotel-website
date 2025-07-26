@@ -1,6 +1,6 @@
 import React from "react";
 
-const ReservationCard = () => {
+const ReservationCard = ({ ref }) => {
   // Get tomorrow's date in YYYY-MM-DD format
   const getTomorrowDate = () => {
     const today = new Date();
@@ -11,7 +11,10 @@ const ReservationCard = () => {
   const minDate = getTomorrowDate();
 
   return (
-    <div className="flex flex-wrap gap-4 bg-white p-5 rounded-xl shadow-lg text-black w-[90vw] max-w-4xl justify-around items-end border-3 border-[#0478bb]">
+    <div
+      ref={ref}
+      className="flex flex-wrap gap-4 bg-white p-5 rounded-xl shadow-lg text-black w-[90vw] max-w-4xl justify-around items-end border-3 border-[#0478bb]"
+    >
       <div className="flex flex-col flex-1 basis-[100px]">
         <label className="font-semibold mb-1 ">Arrivée</label>
         <input type="date" className="border rounded px-2 py-1" min={minDate} />

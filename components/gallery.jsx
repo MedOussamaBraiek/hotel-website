@@ -2,7 +2,11 @@
 
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+import { gsap } from "gsap";
+import { SplitText } from "gsap/all";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const Gallery = () => {
   const interieurImages = [
@@ -30,6 +34,92 @@ const Gallery = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [screenWidth, setScreenWidth] = useState(1200);
+
+  const titleRef = useRef(null);
+  const titleRef2 = useRef(null);
+  const imagesRef = useRef(null);
+  const imagesRef2 = useRef(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(SplitText, ScrollTrigger);
+
+    const splitTitle = new SplitText(titleRef.current, { type: "words" });
+    const splitTitle2 = new SplitText(titleRef2.current, { type: "words" });
+
+    gsap.from(splitTitle.words, {
+      y: 80,
+      opacity: 0,
+      ease: "power2.out",
+      stagger: 0.05,
+      duration: 0.8,
+      scrollTrigger: {
+        trigger: titleRef.current,
+        start: "top-=80% 90%",
+        end: "top 30%",
+      },
+    });
+
+    gsap.fromTo(
+      splitTitle2.words,
+      { y: 80, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "power2.out",
+        stagger: 0.05,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: titleRef2.current,
+          start: "top-=80% 90%",
+          end: "top 30%",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      imagesRef.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: imagesRef.current,
+          start: "top-=80% 30%",
+          end: "top 30%",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      imagesRef2.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: imagesRef2.current,
+          start: "top-=30% 50%",
+          end: "top 30%",
+        },
+      }
+    );
+
+    // Force refresh after animations are added
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 0);
+
+    return () => {
+      // Revert both SplitTexts
+      splitTitle.revert();
+      splitTitle2.revert();
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -76,22 +166,28 @@ const Gallery = () => {
   return (
     <div className="w-full flex flex-col items-center  md:px-[5rem] sm:px-[3rem] px-[1rem] py-[2rem] h-full">
       <div className="flex w-full justify-start">
-        <h2 className="sm:text-3xl text-2xl font-semibold text-left  text-gray-600 mb-5">
+        <h2
+          ref={titleRef}
+          className="sm:text-3xl text-2xl font-semibold text-left  text-gray-600 mb-5"
+        >
           Gallerie Photo (INTÉRIEUR)
         </h2>
       </div>
 
-      <div className="flex w-full h-[400px] overflow-hidden">
+      <div ref={imagesRef} className="flex w-full h-[400px] overflow-hidden">
         {renderImageGrid(interieurImages)}
       </div>
 
       <div className="flex w-full justify-start mt-[100px]">
-        <h2 className="sm:text-3xl text-2xl font-semibold text-left  text-gray-600 mb-5">
+        <h2
+          ref={titleRef2}
+          className="sm:text-3xl text-2xl font-semibold text-left  text-gray-600 mb-5"
+        >
           Gallerie Photo (EXTÉRIEUR)
         </h2>
       </div>
 
-      <div className="flex w-full h-[400px] overflow-hidden">
+      <div ref={imagesRef2} className="flex w-full h-[400px] overflow-hidden">
         {renderImageGrid(exterieurImages)}
       </div>
 
